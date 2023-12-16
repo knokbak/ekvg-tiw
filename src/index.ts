@@ -80,9 +80,18 @@ export default {
 					windSkeidGust = parseInt(windSkeidStr.substring(6, 8));
 				}
 
-				const index = Math.round(windSkeidDir / 10) % 36;
-				const arr12Dep30 = classifySpeed(DATA_ARR12_DEP30[index], windSkeidSpeed);
-				const arr30Dep12 = classifySpeed(DATA_ARR30_DEP12[index], windSkeidSpeed);
+				const windSkeidVariationStr = windSkeidStr.split(' ')[1];
+				let variation: [number, number] | undefined = undefined;
+				if (windSkeidVariationStr) {
+					const [start, end] = windSkeidVariationStr.split('V');
+					variation = [parseInt(start), parseInt(end)];
+					if (isNaN(variation[0]) || isNaN(variation[1])) {
+						variation = undefined;
+					}
+				}
+
+				const arr12Dep30 = classifySpeed(DATA_ARR12_DEP30, windSkeidDir, windSkeidGust ?? windSkeidSpeed, variation);
+				const arr30Dep12 = classifySpeed(DATA_ARR30_DEP12, windSkeidDir, windSkeidGust ?? windSkeidSpeed, variation);
 
 				return new Response(JSON.stringify({
 					at: receiptTime,
@@ -106,8 +115,6 @@ export default {
 						metar: rawOb,
 						metarSource: METAR_URL,
 						fromCache: hasUsedCache,
-						arr12Dep30: DATA_ARR12_DEP30[index],
-						arr30Dep12: DATA_ARR30_DEP12[index],
 					}
 				}), {
 					headers: {
@@ -124,11 +131,32 @@ export default {
 	},
 };
 
-function classifySpeed (entry: TWIEntry, speed: number): TWIResult {
+function classifySpeed (dataset: TWIEntry[], degrees: number, speed: number, variation?: [number, number]): TWIResult {
+	const index = Math.round(degrees / 10) % 36;
+	const entry = dataset[index];
 	const { light, medium, heavy, severe } = entry;
-	if (severe && severe[0] <= speed) return 'severe';
-	if (heavy && heavy[0] <= speed) return 'heavy';
-	if (medium && medium[0] <= speed) return 'medium';
-	if (light && light[0] <= speed) return 'light';
+
+	if (variation) {
+		// if there is variation, we need to check every 10 degrees from the start to the end and use the highest result
+		const [start, end] = variation;
+		const difference = Math.min(Math.abs(start - end), Math.abs((Math.max(...variation) - 360) - Math.min(...variation)));
+		let result: TWIResult = 'none';
+
+		for (let i = 0; i <= difference; i += 10) {
+			const current = (start + i) % 360;
+			const currentResult = classifySpeed(dataset, current, speed);
+			if (currentResult === 'severe') return 'severe';
+			if (currentResult === 'heavy') result = 'heavy';
+			if (currentResult === 'medium' && result !== 'heavy') result = 'medium';
+			if (currentResult === 'light' && result === 'none') result = 'light';
+		}
+
+		return result;
+	} else {
+		if (severe && severe[0] <= speed) return 'severe';
+		if (heavy && heavy[0] <= speed) return 'heavy';
+		if (medium && medium[0] <= speed) return 'medium';
+		if (light && light[0] <= speed) return 'light';
+	}
 	return 'none';
 }

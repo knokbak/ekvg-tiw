@@ -175,13 +175,13 @@ export const HTML = `
 
             <div class="indicators-box">
                 <div class="indicators">
-                    <div id="arr-rwy-30" class="indicator light">
+                    <div id="arr-rwy-30" class="indicator">
                         <h3>ARR RWY 30</h3>
-                        <p>LIGHT TURBULENCE</p>
+                        <p></p>
                     </div>
-                    <div id="dep-rwy-30" class="indicator medium">
+                    <div id="dep-rwy-30" class="indicator">
                         <h3>DEP RWY 30</h3>
-                        <p>MEDIUM TURBULENCE</p>
+                        <p></p>
                     </div>
                 </div>
                 <p class="indicators-identifier">RUNWAY 30</p>
@@ -189,13 +189,13 @@ export const HTML = `
 
             <div class="indicators-box">
                 <div class="indicators">
-                    <div id="arr-rwy-12" class="indicator heavy">
+                    <div id="arr-rwy-12" class="indicator">
                         <h3>ARR RWY 12</h3>
-                        <p>HEAVY TURBULENCE</p>
+                        <p></p>
                     </div>
-                    <div id="dep-rwy-12" class="indicator severe">
+                    <div id="dep-rwy-12" class="indicator">
                         <h3>DEP RWY 12</h3>
-                        <p>TAKE-OFF PROHIBITED</p>
+                        <p></p>
                     </div>
                 </div>
                 <p class="indicators-identifier">RUNWAY 12</p>
@@ -214,6 +214,7 @@ export const HTML = `
 
         <h2>Using This System</h2>
         <p>The TWI system predicts turbulent conditions individually for both departures and arrivals.</p>
+        <p>If the winds are gusting, the highest speed will be used. If the winds are variable, the system will display the worst case scenario. This is what they will follow in real life.</p>
         <p>
             <strong>NONE:</strong> No substantial turbulence is predicted.
             <br />
@@ -228,6 +229,8 @@ export const HTML = `
         <p>This page will automatically refresh every 10 minutes. Every 2 hours, you will need to confirm you are still using the system.</p>
 
         <hr />
+
+        <p><strong>FOR SIMULATION USE ONLY</strong></p>
 
         <p>
             Provided and maintained by Ollie Killean - 1553864
