@@ -1,196 +1,196 @@
 [
     {
-        "direction": 0,
+        "degrees": 0,
         "light": [10, 25],
         "medium": [25, 37],
         "heavy": [37, 47],
         "severe": [47, null]
     },
     {
-        "direction": 10,
+        "degrees": 10,
         "light": [10, 21],
         "medium": [21, 36],
         "heavy": [36, 45],
         "severe": [45, null]
     },
     {
-        "direction": 20,
+        "degrees": 20,
         "light": [10, 19],
         "medium": [19, 35],
         "heavy": [35, 43],
         "severe": [43, null]
     },
     {
-        "direction": 30,
+        "degrees": 30,
         "light": [10, 19],
         "medium": [19, 31],
         "heavy": [31, 42],
         "severe": [42, null]
     },
     {
-        "direction": 40,
+        "degrees": 40,
         "light": [10, 19],
         "medium": [19, 27],
         "heavy": [27, 37],
         "severe": [37, null]
     },
     {
-        "direction": 50,
+        "degrees": 50,
         "light": [10, 19],
         "medium": [19, 28],
         "heavy": [28, 40],
         "severe": [40, null]
     },
     {
-        "direction": 60,
+        "degrees": 60,
         "light": [10, 23],
         "medium": [23, 35],
         "heavy": [35, null]
     },
     {
-        "direction": 70,
+        "degrees": 70,
         "light": [10, 27],
         "medium": [27, 42],
         "heavy": [42, null]
     },
     {
-        "direction": 80,
+        "degrees": 80,
         "light": [10, 31],
         "medium": [31, null]
     },
     {
-        "direction": 90,
+        "degrees": 90,
         "light": [10, 41],
         "medium": [41, null]
     },
     {
-        "direction": 100,
+        "degrees": 100,
         "light": [10, 49],
         "medium": [49, null]
     },
     {
-        "direction": 110,
+        "degrees": 110,
         "light": [31, null]
     },
     {
-        "direction": 120,
+        "degrees": 120,
         "light": [48, null]
     },
     {
-        "direction": 130,
+        "degrees": 130,
         "light": [49, null]
     },
     {
-        "direction": 140,
+        "degrees": 140,
         "light": [34, 45],
         "medium": [45, null]
     },
     {
-        "direction": 150,
+        "degrees": 150,
         "light": [20, 31],
         "medium": [31, 41],
         "heavy": [41, null]
     },
     {
-        "direction": 160,
+        "degrees": 160,
         "light": [10, 21],
         "medium": [21, 28],
         "heavy": [28, 37],
         "severe": [37, null]
     },
     {
-        "direction": 170,
+        "degrees": 170,
         "medium": [10, 18],
         "heavy": [18, 32],
         "severe": [32, null]
     },
     {
-        "direction": 180,
+        "degrees": 180,
         "medium": [10, 18],
         "heavy": [18, 27],
         "severe": [27, null]
     },
     {
-        "direction": 190,
+        "degrees": 190,
         "medium": [10, 15],
         "heavy": [15, 27],
         "severe": [27, null]
     },
     {
-        "direction": 200,
+        "degrees": 200,
         "medium": [10, 15],
         "heavy": [15, 27],
         "severe": [27, null]
     },
     {
-        "direction": 210,
+        "degrees": 210,
         "medium": [10, 13],
         "heavy": [13, 27],
         "severe": [27, null]
     },
     {
-        "direction": 220,
+        "degrees": 220,
         "medium": [10, 13],
         "heavy": [13, 27],
         "severe": [27, null]
     },
     {
-        "direction": 230,
+        "degrees": 230,
         "medium": [10, 15],
         "heavy": [15, 32],
         "severe": [32, null]
     },
     {
-        "direction": 240,
+        "degrees": 240,
         "medium": [10, 22],
         "heavy": [22, 39],
         "severe": [39, null]
     },
     {
-        "direction": 250,
+        "degrees": 250,
         "medium": [10, 28],
         "heavy": [28, 46],
         "severe": [46, null]
     },
     {
-        "direction": 260,
+        "degrees": 260,
         "medium": [10, null]
     },
     {
-        "direction": 270,
+        "degrees": 270,
         "light": [10, 35],
         "medium": [35, null]
     },
     {
-        "direction": 280,
+        "degrees": 280,
         "light": [25, null]
     },
     {
-        "direction": 290,
+        "degrees": 290,
         "light": [29, null]
     },
     {
-        "direction": 300,
+        "degrees": 300,
         "light": [49, null]
     },
     {
-        "direction": 310
+        "degrees": 310
     },
     {
-        "direction": 320,
+        "degrees": 320,
         "light": [49, null]
     },
     {
-        "direction": 330,
+        "degrees": 330,
         "light": [35, null]
     },
     {
-        "direction": 340,
+        "degrees": 340,
         "light": [24, 41],
         "medium": [41, null]
     },
     {
-        "direction": 350,
+        "degrees": 350,
         "light": [10, 33],
         "medium": [33, 42],
         "heavy": [50, null]
