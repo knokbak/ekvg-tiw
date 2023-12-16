@@ -70,6 +70,7 @@ export default {
 				}), {
 					headers: {
 						'Access-Control-Allow-Origin': 'https://twi.olli.ovh',
+						'Content-Type': 'application/json',
 					},
 				});
 			}
