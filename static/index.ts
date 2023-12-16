@@ -226,6 +226,7 @@ export const HTML = `
             <br />
             <strong style="color: var(--severe)">SEVERE:</strong> Severe turbulence is predicted. Take-off and landing in the indicated configuration is prohibited.
         </p>
+        <p><strong>Note:</strong> TWI closes runways for take-offs and landings separately. This means a runway could be closed for take-offs, but available for landings, or vice-versa.</p>
         <p>This page will automatically refresh every 10 minutes. Every 2 hours, you will need to confirm you are still using the system.</p>
 
         <hr />

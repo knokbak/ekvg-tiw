@@ -66,6 +66,7 @@ export default {
 					metar = await metar.json() as any[];
 				}
 				const { receiptTime, wdir, wspd, wgst, rawOb } = metar[0];
+				console.log(`cached = ${hasUsedCache}`, metar);
 
 				const windSkeidStr = rawOb.split(' WIND SKEID ')[1];
 				if (!windSkeidStr) {
@@ -73,16 +74,27 @@ export default {
 					return new Response('METAR is currently unavailable', { status: 500 });
 				}
 
-				const windSkeidDir = parseInt(windSkeidStr.substring(0, 3));
-				const windSkeidSpeed = parseInt(windSkeidStr.substring(3, 5));
+				let windSkeidDir = 0;
+				let windSkeidSpeed = 0;
 				let windSkeidGust = null;
-				if (windSkeidStr[5] === 'G') {
-					windSkeidGust = parseInt(windSkeidStr.substring(6, 8));
+
+				if (windSkeidStr.startsWith('VRB')) {
+					windSkeidDir = isNaN(wdir) ? 210 : wdir;
+					windSkeidSpeed = parseInt(windSkeidStr.substring(3, 5));
+					if (windSkeidStr[5] === 'G') {
+						windSkeidGust = parseInt(windSkeidStr.substring(6, 8));
+					}
+				} else {
+					windSkeidDir = parseInt(windSkeidStr.substring(0, 3));
+					windSkeidSpeed = parseInt(windSkeidStr.substring(3, 5));
+					if (windSkeidStr[5] === 'G') {
+						windSkeidGust = parseInt(windSkeidStr.substring(6, 8));
+					}
 				}
 
 				const windSkeidVariationStr = windSkeidStr.split(' ')[1];
 				let variation: [number, number] | undefined = undefined;
-				if (windSkeidVariationStr) {
+				if (windSkeidVariationStr && windSkeidVariationStr.includes('V')) {
 					const [start, end] = windSkeidVariationStr.split('V');
 					variation = [parseInt(start), parseInt(end)];
 					if (isNaN(variation[0]) || isNaN(variation[1])) {
