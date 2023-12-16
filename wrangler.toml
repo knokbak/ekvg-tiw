@@ -1,0 +1,7 @@
+name = "ekvg-twi"
+main = "src/index.ts"
+compatibility_date = "2023-12-06"
+workers_dev = false
+
+[placement]
+mode = "smart"

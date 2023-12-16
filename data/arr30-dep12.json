@@ -1,191 +1,195 @@
-[
-    {
-        "degrees": 0,
-        "light": [13, 18],
-        "medium": [18, 40],
-        "heavy": [40, null]
-    },
-    {
-        "degrees": 10,
-        "light": [12, 16],
-        "medium": [16, 33],
-        "heavy": [33, 45],
-        "severe": [45, null]
-    },
-    {
-        "degrees": 20,
-        "light": [10, 14],
-        "medium": [14, 29],
-        "heavy": [29, 41],
-        "severe": [41, null]
-    },
-    {
-        "degrees": 30,
-        "light": [10, 12],
-        "medium": [12, 28],
-        "heavy": [28, 40],
-        "severe": [40, null]
-    },
-    {
-        "degrees": 40,
-        "light": [10, 14],
-        "medium": [14, 32],
-        "heavy": [32, 40],
-        "severe": [40, null]
-    },
-    {
-        "degrees": 50,
-        "light": [13, 24],
-        "medium": [24, 38],
-        "heavy": [38, 45],
-        "severe": [45, null]
-    },
-    {
-        "degrees": 60,
-        "light": [15, 33],
-        "medium": [33, 42],
-        "heavy": [47, null]
-    },
-    {
-        "degrees": 70,
-        "light": [24, 41],
-        "medium": [41, null]
-    },
-    {
-        "degrees": 80,
-        "light": [33, 49],
-        "medium": [49, null]
-    },
-    {
-        "degrees": 90,
-        "light": [44, null]
-    },
-    {
-        "degrees": 100
-    },
-    {
-        "degrees": 110
-    },
-    {
-        "degrees": 120
-    },
-    {
-        "degrees": 130
-    },
-    {
-        "degrees": 140,
-        "light": [46, null]
-    },
-    {
-        "degrees": 150,
-        "light": [32, 44],
-        "medium": [44, null]
-    },
-    {
-        "degrees": 160,
-        "light": [15, 28],
-        "medium": [28, 35],
-        "heavy": [35, null]
-    },
-    {
-        "degrees": 170,
-        "light": [10, 15],
-        "medium": [15, 29],
-        "heavy": [29, null]
-    },
-    {
-        "degrees": 180,
-        "light": [8, 11],
-        "medium": [11, 27],
-        "heavy": [27, null]
-    },
-    {
-        "degrees": 190,
-        "light": [7, 9],
-        "medium": [9, 28],
-        "heavy": [28, 44],
-        "severe": [44, null]
-    },
-    {
-        "degrees": 200,
-        "light": [7, 9],
-        "medium": [9, 27],
-        "heavy": [27, 38],
-        "severe": [38, null]
-    },
-    {
-        "degrees": 210,
-        "light": [7, 9],
-        "medium": [9, 25],
-        "heavy": [25, 38],
-        "severe": [38, null]
-    },
-    {
-        "degrees": 220,
-        "light": [7, 9],
-        "medium": [9, 23],
-        "heavy": [23, 38],
-        "severe": [38, null]
-    },
-    {
-        "degrees": 230,
-        "light": [6, 9],
-        "medium": [9, 26],
-        "heavy": [26, 40],
-        "severe": [40, null]
-    },
-    {
-        "degrees": 240,
-        "light": [6, 8],
-        "medium": [8, 30],
-        "heavy": [30, 45],
-        "severe": [45, null]
-    },
-    {
-        "degrees": 250,
-        "light": [8, 15],
-        "medium": [15, 34],
-        "heavy": [34, null]
-    },
-    {
-        "degrees": 260,
-        "light": [9, 30],
-        "medium": [30, 44],
-        "heavy": [44, null]
-    },
-    {
-        "degrees": 270,
-        "light": [10, 49],
-        "medium": [49, null]
-    },
-    {
-        "degrees": 280,
-        "light": [48, null]
-    },
-    {
-        "degrees": 290
-    },
-    {
-        "degrees": 300
-    },
-    {
-        "degrees": 310
-    },
-    {
-        "degrees": 320
-    },
-    {
-        "degrees": 330,
-        "light": [48, null]
-    },
-    {
-        "degrees": 340,
-        "light": [36, 40],
-        "medium": [40, null]
-    },
-    {
-        "degrees": 350,
-        "light": [24, 29],
-        "medium": [29, null]
-    }
-]
+{
+    "_DISCLAIMER": "FOR SIMULATION USE ONLY! Use of this software for real-world navigation is unsafe and strictly prohibited.",
+    "_LICENSE": "Licensed under the BSD 3-Clause License. If a copy of the license was not distributed with this file, you can obtain one at https://github.com/knokbak/ekvg-twi/blob/main/LICENSE.",
+    "data": [
+        {
+            "degrees": 0,
+            "light": [13, 18],
+            "medium": [18, 40],
+            "heavy": [40, null]
+        },
+        {
+            "degrees": 10,
+            "light": [12, 16],
+            "medium": [16, 33],
+            "heavy": [33, 45],
+            "severe": [45, null]
+        },
+        {
+            "degrees": 20,
+            "light": [10, 14],
+            "medium": [14, 29],
+            "heavy": [29, 41],
+            "severe": [41, null]
+        },
+        {
+            "degrees": 30,
+            "light": [10, 12],
+            "medium": [12, 28],
+            "heavy": [28, 40],
+            "severe": [40, null]
+        },
+        {
+            "degrees": 40,
+            "light": [10, 14],
+            "medium": [14, 32],
+            "heavy": [32, 40],
+            "severe": [40, null]
+        },
+        {
+            "degrees": 50,
+            "light": [13, 24],
+            "medium": [24, 38],
+            "heavy": [38, 45],
+            "severe": [45, null]
+        },
+        {
+            "degrees": 60,
+            "light": [15, 33],
+            "medium": [33, 42],
+            "heavy": [47, null]
+        },
+        {
+            "degrees": 70,
+            "light": [24, 41],
+            "medium": [41, null]
+        },
+        {
+            "degrees": 80,
+            "light": [33, 49],
+            "medium": [49, null]
+        },
+        {
+            "degrees": 90,
+            "light": [44, null]
+        },
+        {
+            "degrees": 100
+        },
+        {
+            "degrees": 110
+        },
+        {
+            "degrees": 120
+        },
+        {
+            "degrees": 130
+        },
+        {
+            "degrees": 140,
+            "light": [46, null]
+        },
+        {
+            "degrees": 150,
+            "light": [32, 44],
+            "medium": [44, null]
+        },
+        {
+            "degrees": 160,
+            "light": [15, 28],
+            "medium": [28, 35],
+            "heavy": [35, null]
+        },
+        {
+            "degrees": 170,
+            "light": [10, 15],
+            "medium": [15, 29],
+            "heavy": [29, null]
+        },
+        {
+            "degrees": 180,
+            "light": [8, 11],
+            "medium": [11, 27],
+            "heavy": [27, null]
+        },
+        {
+            "degrees": 190,
+            "light": [7, 9],
+            "medium": [9, 28],
+            "heavy": [28, 44],
+            "severe": [44, null]
+        },
+        {
+            "degrees": 200,
+            "light": [7, 9],
+            "medium": [9, 27],
+            "heavy": [27, 38],
+            "severe": [38, null]
+        },
+        {
+            "degrees": 210,
+            "light": [7, 9],
+            "medium": [9, 25],
+            "heavy": [25, 38],
+            "severe": [38, null]
+        },
+        {
+            "degrees": 220,
+            "light": [7, 9],
+            "medium": [9, 23],
+            "heavy": [23, 38],
+            "severe": [38, null]
+        },
+        {
+            "degrees": 230,
+            "light": [6, 9],
+            "medium": [9, 26],
+            "heavy": [26, 40],
+            "severe": [40, null]
+        },
+        {
+            "degrees": 240,
+            "light": [6, 8],
+            "medium": [8, 30],
+            "heavy": [30, 45],
+            "severe": [45, null]
+        },
+        {
+            "degrees": 250,
+            "light": [8, 15],
+            "medium": [15, 34],
+            "heavy": [34, null]
+        },
+        {
+            "degrees": 260,
+            "light": [9, 30],
+            "medium": [30, 44],
+            "heavy": [44, null]
+        },
+        {
+            "degrees": 270,
+            "light": [10, 49],
+            "medium": [49, null]
+        },
+        {
+            "degrees": 280,
+            "light": [48, null]
+        },
+        {
+            "degrees": 290
+        },
+        {
+            "degrees": 300
+        },
+        {
+            "degrees": 310
+        },
+        {
+            "degrees": 320
+        },
+        {
+            "degrees": 330,
+            "light": [48, null]
+        },
+        {
+            "degrees": 340,
+            "light": [36, 40],
+            "medium": [40, null]
+        },
+        {
+            "degrees": 350,
+            "light": [24, 29],
+            "medium": [29, null]
+        }
+    ]
+}
