@@ -75,21 +75,16 @@ export default {
 				}
 
 				let windSkeidDir = 0;
-				let windSkeidSpeed = 0;
-				let windSkeidGust = null;
-
 				if (windSkeidStr.startsWith('VRB')) {
 					windSkeidDir = isNaN(wdir) ? 210 : wdir;
-					windSkeidSpeed = parseInt(windSkeidStr.substring(3, 5));
-					if (windSkeidStr[5] === 'G') {
-						windSkeidGust = parseInt(windSkeidStr.substring(6, 8));
-					}
 				} else {
 					windSkeidDir = parseInt(windSkeidStr.substring(0, 3));
-					windSkeidSpeed = parseInt(windSkeidStr.substring(3, 5));
-					if (windSkeidStr[5] === 'G') {
-						windSkeidGust = parseInt(windSkeidStr.substring(6, 8));
-					}
+				}
+
+				const windSkeidSpeed = parseInt(windSkeidStr.substring(3, 5));
+				let windSkeidGust = null;
+				if (windSkeidStr[5] === 'G') {
+					windSkeidGust = parseInt(windSkeidStr.substring(6, 8));
 				}
 
 				const windSkeidVariationStr = windSkeidStr.split(' ')[1];
