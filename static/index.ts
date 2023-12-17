@@ -5,169 +5,7 @@ export const HTML = `
         <meta charset="utf-8">
         <title>EKVG TWI - Turbulence Warning Indication System</title>
         <meta name="viewport" content="width=750px">
-        <style>
-            @import url('https://fonts.googleapis.com/css2?family=Fira+Code&family=Open+Sans:wght@400;500;600;700&display=swap');
-
-            :root {
-                --background: #24242e;
-                --none: #2a2a36;
-                --light: #4e4eec;
-                --medium: #00c800;
-                --heavy: #c2c209;
-                --severe: #ff0000;
-            }
-
-            body {
-                font-family: 'Open Sans', sans-serif;
-                background: var(--background);
-                color: #fff;
-                margin: 0;
-                padding: 30px;
-            }
-
-            h1 {
-                margin: 0 0 16px;
-            }
-
-            p {
-                margin: 0;
-            }
-
-            p:not(:last-child) {
-                margin-bottom: 12px;
-            }
-
-            a {
-                color: #43c6e7;
-                text-decoration: underline;
-                text-underline-offset: 2px;
-                font-weight: 500;
-            }
-
-            hr {
-                height: 1px;
-                border: none;
-                background: #5e5e6e;
-                margin: 30px -30px;
-            }
-
-            .indicators {
-                display: flex;
-                flex-wrap: wrap;
-                text-align: center;
-                margin: 0 0 20px;
-                padding: 13px;
-                border: 1px solid #5e5e6e;
-                border-radius: 8px;
-            }
-
-            .indicator {
-                background: var(--none);
-                flex: 0 1 calc(50% - 60px);
-                padding: 15px;
-                margin: 15px;
-                background: #2a2a36;
-                border-radius: 8px;
-                box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
-            }
-
-            .indicator h3 {
-                margin: 0 0 4px !important;
-                font-size: 24px;
-            }
-
-            .indicator p {
-                margin: 0 !important;
-                font-size: 15px;
-                font-weight: 600;
-            }
-
-            .indicator.light {
-                background: var(--light);
-            }
-
-            .indicator.medium {
-                background: var(--medium);
-            }
-
-            .indicator.heavy {
-                background: var(--heavy);
-            }
-
-            .indicator.severe {
-                background: var(--severe);
-            }
-
-            @keyframes spinner {
-                to {
-                    transform: rotate(360deg);
-                }
-            }
-
-            .spinner:before {
-                content: '';
-                box-sizing: border-box;
-                width: 20px;
-                height: 20px;
-                display: block;
-                border-radius: 50%;
-                border: 2px solid #59585e;
-                border-top-color: #fff;
-                animation: spinner .6s linear infinite;
-            }
-
-            .indicators-wrap {
-                position: relative;
-                min-height: 376px;
-            }
-
-            .indicators-box {
-                position: relative;
-                width: 100%;
-            }
-
-            .indicators-box .indicators-identifier {
-                position: absolute;
-                top: -8px;
-                width: 114px;
-                left: calc(50% - 57px);
-                text-align: center;
-                font-size: 16px;
-                line-height: 16px;
-                font-weight: 600;
-                color: #e5e5e9;
-                background: var(--background);
-                padding: 0 2px;
-            }
-
-            #loader {
-                position: absolute;
-                top: 50%;
-                left: 50%;
-                transform: translate(-50%, -50%);
-            }
-            
-            #metar {
-                font-family: 'Fira Code', monospace;
-                padding: 12px;
-                background: #2a2a36;
-                border: 1px solid #5e5e6e;
-                border-radius: 8px;
-                font-size: 15px;
-            }
-
-            #refreshing-in {
-                position: absolute;
-                top: 5px;
-                left: 5px;
-                font-size: 12px;
-                color: #5e5e6e;
-            }
-
-            body.loading .indicators-box, body.loading #metar, body.loading #refreshing-in, body:not(.loading) #loader {
-                display: none;
-            }
-        </style>
+        <link rel="stylesheet" href="https://cdn.olli.ovh/twi.olli.ovh/styles/main.css">
     </head>
     <body class="loading">
         <div class="indicators-wrap">
@@ -201,14 +39,14 @@ export const HTML = `
                 <p class="indicators-identifier">RUNWAY 12</p>
             </div>
             
-            <p id="metar">EKVG 161720Z AUTO 26011KT 230V310 9999 BKN035/// BKN054/// 06/01 Q1010 RMK SCT031/// BKN062/// WIND SKEID 27016G39KT 220V310</p>
+            <p id="metar"></p>
         </div>
 
         <hr />
 
         <h1>Turbulence Warning Indication (TWI) System</h1>
         <p>This is the TWI system for EKVG Vagar Airport on the <a href="https://vatsim.net" target="_blank">VATSIM</a> network.</p>
-        <p>The TWI system uses data collected by the real-world operators of EKVG Vagar to predict the severity of turbulence on final approach. This software's dataset is based on the windroses published on the Danish AIP.</p>
+        <p>The TWI system uses data collected by the real-world operators of Vagar to predict the severity of turbulence on final approach. This software's dataset is based on the windroses published on the Danish AIP.</p>
         
         <hr />
 
@@ -218,97 +56,46 @@ export const HTML = `
         <p>
             <strong>NONE:</strong> No substantial turbulence is predicted.
             <br />
-            <strong style="color: var(--light)">LIGHT:</strong> Light turbulence is predicted. Light aircraft should still be able to fly relatively safely.
+            <strong class="color-light">LIGHT:</strong> Light turbulence is predicted. Light aircraft should still be able to fly relatively safely.
             <br />
-            <strong style="color: var(--medium)">MEDIUM:</strong> Moderate turbulence is predicted. The flight of light aircraft is very difficult.
+            <strong class="color-medium">MEDIUM:</strong> Moderate turbulence is predicted. The flight of light aircraft is very difficult.
             <br />
-            <strong style="color: var(--heavy)">HEAVY:</strong> Moderate to severe turbulence is predicted. The flight of light aircraft is hazardous and the flight of larger aircraft is very difficult. Larger aircraft may be very near, or past, their crosswind limits.
+            <strong class="color-heavy">HEAVY:</strong> Moderate to severe turbulence is predicted. The flight of light aircraft is hazardous and the flight of larger aircraft is very difficult. Larger aircraft may be very near, or past, their crosswind limits.
             <br />
-            <strong style="color: var(--severe)">SEVERE:</strong> Severe turbulence is predicted. Take-off and landing in the indicated configuration is prohibited.
+            <strong class="color-severe">SEVERE:</strong> Severe turbulence is predicted. Take-off and landing in the indicated configuration is prohibited.
         </p>
         <p><strong>Note:</strong> TWI closes runways for take-offs and landings separately. This means a runway could be closed for take-offs, but available for landings, or vice-versa.</p>
         <p>This page will automatically refresh every 10 minutes. Every 2 hours, you will need to confirm you are still using the system.</p>
 
         <hr />
 
+        <h2>How It Works</h2>
+        <p>Over 30 years, the operators of Vagar have collected data and pilot reports which have allowed them to create multiple 'windroses' (charts that show turbulence severity in relation to wind heading and speed). These are used to program the real-world TWI and are the basis of this system as well.</p>
+        <p>In real life, the TWI operates on a degree-by-degree basis, but this system uses 10 degree increments due to its use of METARs instead of direct access to a weather station. The real-world TWI also takes into account variations and gust frequency however, I do not have access to this data.</p>
+
+        <h3>Arriving RWY 30, Departing RWY 12</h3>
+        <div class="img-sim-wrap">
+            <img src="https://cdn.olli.ovh/twi.olli.ovh/images/arr30-dep12.png" alt="Windrose showing turbulance severity for arrivals to runway 30, and departures from runway 12" />
+        </div>
+
+        <h3>Arriving RWY 12, Departing RWY 30</h3>
+        <div class="img-sim-wrap">
+            <img src="https://cdn.olli.ovh/twi.olli.ovh/images/arr12-dep30.png" alt="Windrose showing turbulance severity for arrivals to runway 12, and departures from runway 30" />
+        </div>
+
+        <hr />
+
         <p><strong>FOR SIMULATION USE ONLY</strong></p>
 
         <p>
-            Provided and maintained by Ollie Killean - 1553864
+            Provided and maintained by Ollie - 1553864
             <br />
             Discord: <a href="https://discord.com/channels/@me/534479985855954965">olli.ovh</a> or <a href="https://discord.com/channels/182554696559362048/207181274044039169">#icelandic-chat</a>
         </p>
 
         <span id="refreshing-in"></span>
 
-        <script>
-            const lastConfirmedNotAFK = Date.now();
-
-            window.addEventListener('load', () => {
-                setTimeout(() => {
-                    refreshData();
-                }, 2_000);
-            });
-
-            function refreshData () {
-                if (Date.now() - lastConfirmedNotAFK > 60_000 * 120) {
-                    alert('Are you still here? Press OK to continue using the TWI system.');
-                }
-
-                document.body.classList.add('loading');
-
-                fetch('/api/status', {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                }).then((x) => x.json()).then((data) => {
-                    document.getElementById('arr-rwy-30').classList.remove('light', 'medium', 'heavy', 'severe');
-                    document.getElementById('dep-rwy-30').classList.remove('light', 'medium', 'heavy', 'severe');
-                    document.getElementById('arr-rwy-12').classList.remove('light', 'medium', 'heavy', 'severe');
-                    document.getElementById('dep-rwy-12').classList.remove('light', 'medium', 'heavy', 'severe');
-
-                    document.getElementById('arr-rwy-30').classList.add(data.warnings.arriving30);
-                    document.getElementById('dep-rwy-30').classList.add(data.warnings.departing30);
-                    document.getElementById('arr-rwy-12').classList.add(data.warnings.arriving12);
-                    document.getElementById('dep-rwy-12').classList.add(data.warnings.departing12);
-
-                    document.querySelector('#arr-rwy-30 p').innerText = toHumanReadable(data.warnings.arriving30);
-                    document.querySelector('#dep-rwy-30 p').innerText = toHumanReadable(data.warnings.departing30);
-                    document.querySelector('#arr-rwy-12 p').innerText = toHumanReadable(data.warnings.arriving12);
-                    document.querySelector('#dep-rwy-12 p').innerText = toHumanReadable(data.warnings.departing12);
-
-                    document.getElementById('metar').innerText = data.raw.metar;
-
-                    let counter = 0;
-                    let interval = setInterval(() => {
-                        counter++;
-                        if (counter === 600) {
-                            clearInterval(interval);
-                            refreshData();
-                            return;
-                        }
-                        document.getElementById('refreshing-in').innerText = 'Refreshing in ' + (600 - counter) + ' seconds';
-                    }, 1_000);
-
-                    document.body.classList.remove('loading');
-                }).catch((err) => {
-                    alert(err);
-                    throw err;
-                });
-            }
-
-            function toHumanReadable (str) {
-                switch (str) {
-                    case 'none': return 'USE PERMITTED';
-                    case 'light': return 'LIGHT TURBULENCE';
-                    case 'medium': return 'MODERATE TURBULENCE';
-                    case 'heavy': return 'HEAVY TURBULENCE';
-                    case 'severe': return 'RUNWAY CLOSED';
-                    default: throw new Error('Unknown turbulence level: ' + str);
-                }
-            }
-        </script>
+        <script src="https://cdn.olli.ovh/twi.olli.ovh/scripts/main.js"></script>
     </body>
 </html>
 `;

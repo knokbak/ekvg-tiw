@@ -10,6 +10,13 @@ import { TWIEntry, TWIResult } from './types';
 const DATA_ARR12_DEP30 = _DATA_ARR12_DEP30.data as TWIEntry[];
 const DATA_ARR30_DEP12 = _DATA_ARR30_DEP12.data as TWIEntry[];
 const METAR_URL = 'https://aviationweather.gov/api/data/metar?ids=EKVG&format=json&taf=false';
+const HEADERS = {
+	'Access-Control-Allow-Origin': 'https://twi.olli.ovh',
+	'Access-Control-Allow-Methods': 'GET, OPTIONS',
+	'Cross-Origin-Resource-Policy': 'same-origin',
+	'Content-Security-Policy': 'default-src \'none\'; script-src https://cdn.olli.ovh https://static.cloudflareinsights.com; style-src https://cdn.olli.ovh https://fonts.googleapis.com; img-src https://cdn.olli.ovh; font-src https://fonts.gstatic.com; connect-src \'self\'; frame-ancestors \'none\'; upgrade-insecure-requests; block-all-mixed-content; disown-opener',
+	'X-Frame-Options': 'DENY',
+};
 
 export interface Env {
 
@@ -23,10 +30,7 @@ export default {
 		if (method !== 'GET') {
 			if (method === 'OPTIONS') {
 				return new Response(null, {
-					headers: {
-						'Access-Control-Allow-Origin': 'https://twi.olli.ovh',
-						'Access-Control-Allow-Methods': 'GET, OPTIONS',
-					},
+					headers: HEADERS,
 				});
 			}
 			return new Response('Method not allowed', { status: 405 });
@@ -36,9 +40,11 @@ export default {
 			case '/': {
 				return new Response(HTML, {
 					headers: {
+						...HEADERS,
 						'Cache-Control': 'public, max-age=300',
 						'Content-Type': 'text/html',
-						'X-Frame-Options': 'DENY',
+						'Link': '<https://twi.olli.ovh/api/status>; rel="prefetch", <https://fonts.gstatic.com>; rel="preconnect", <https://fonts.googleapis.com>; rel="preconnect", <https://cdn.olli.ovh/twi.olli.ovh/styles/main.css>; rel="prefetch"; as="style", <https://cdn.olli.ovh/twi.olli.ovh/scripts/main.js>; rel="prefetch"; as="script"',
+						'Referrer-Policy': 'same-origin',
 					},
 				});
 			}
@@ -105,7 +111,7 @@ export default {
 					warnings: {
 						arriving12: arr12Dep30,
 						departing12: arr30Dep12,
-						arriving30: arr30Dep12,
+						arriving30: arr12Dep30,
 						departing30: arr30Dep12,
 					},
 					winds: {
@@ -125,14 +131,20 @@ export default {
 					}
 				}), {
 					headers: {
-						'Access-Control-Allow-Origin': 'https://twi.olli.ovh',
-						'Content-Type': 'application/json',
+						...HEADERS,
 						'Cache-Control': 'public, max-age=60',
+						'Content-Type': 'application/json',
 					},
 				});
 			}
 			default: {
-				return new Response('Not found', { status: 404 });
+				return new Response('Not found', {
+					status: 404,
+					headers: {
+						...HEADERS,
+						'Cache-Control': 'public, max-age=30',
+					},
+				});
 			}
 		}
 	},
