@@ -1,5 +1,9 @@
 /*
+ * BSD 3-Clause License
+ * Copyright (c) 2023, Ollie Killean
  * 
+ * If a copy of the BSD 3-Clause License was not distributed with this file, you
+ * may obtain one at: https://github.com/knokbak/ekvg-twi/blob/master/LICENSE.
  */
 
 import { HTML } from '../static';
@@ -14,12 +18,20 @@ const HEADERS = {
 	'Access-Control-Allow-Origin': 'https://twi.olli.ovh',
 	'Access-Control-Allow-Methods': 'GET, OPTIONS',
 	'Cross-Origin-Resource-Policy': 'same-origin',
-	'Content-Security-Policy': 'default-src \'none\'; script-src https://cdn.olli.ovh https://static.cloudflareinsights.com; style-src https://cdn.olli.ovh https://fonts.googleapis.com; img-src https://cdn.olli.ovh; font-src https://fonts.gstatic.com; connect-src \'self\'; frame-ancestors \'none\'; upgrade-insecure-requests; block-all-mixed-content; disown-opener',
+	'Content-Security-Policy': 'default-src \'none\'; script-src https://cdn.olli.ovh https://static.cloudflareinsights.com https://challenges.cloudflare.com; frame-src https://challenges.cloudflare.com; style-src https://cdn.olli.ovh https://fonts.googleapis.com; img-src https://cdn.olli.ovh; font-src https://fonts.gstatic.com; connect-src \'self\'; frame-ancestors \'none\'; upgrade-insecure-requests; block-all-mixed-content; disown-opener',
 	'X-Frame-Options': 'DENY',
 };
 
-export interface Env {
+// these are to compensate for the weirdness provided by sims....
+const ALLOWANCES = {
+	light: 0,
+	medium: 0,
+	heavy: 3,
+	severe: 5,
+};
 
+export interface Env {
+	TURNSTILE_SECRET: string;
 }
 
 export default {
@@ -43,12 +55,35 @@ export default {
 						...HEADERS,
 						'Cache-Control': 'public, max-age=300',
 						'Content-Type': 'text/html',
-						'Link': '<https://twi.olli.ovh/api/status>; rel="prefetch", <https://fonts.gstatic.com>; rel="preconnect", <https://fonts.googleapis.com>; rel="preconnect", <https://cdn.olli.ovh/twi.olli.ovh/styles/main.css>; rel="prefetch"; as="style", <https://cdn.olli.ovh/twi.olli.ovh/scripts/main.js>; rel="prefetch"; as="script"',
+						'Link': '<https://twi.olli.ovh/api/status>; rel="prefetch", <https://fonts.gstatic.com>; rel="preconnect", <https://fonts.googleapis.com>; rel="preconnect", <https://cdn.olli.ovh/twi.olli.ovh/styles/main.css>; rel="prefetch"; as="style", <https://cdn.olli.ovh/twi.olli.ovh/scripts/main.js>; rel="prefetch"; as="script", <https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit>; rel="prefetch"; as="script"',
 						'Referrer-Policy': 'same-origin',
 					},
 				});
 			}
 			case '/api/status': {
+				const turnstileToken = request.headers.get('x-turnstile-pass');
+				if (!turnstileToken) {
+					return new Response('Missing Turnstile token', { status: 401 });
+				}
+
+				const turnstileResponse = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
+					method: 'POST',
+					headers: {
+						'User-Agent': 'twi.olli.ovh',
+						'Content-Type': 'application/json; charset=UTF-8',
+						'Accept': 'application/json',
+					},
+					body: JSON.stringify({
+						secret: env.TURNSTILE_SECRET,
+						response: turnstileToken,
+						remoteip: request.headers.get('cf-connecting-ip'),
+					}),
+				}).then(res => res.json()) as any;
+
+				if (!turnstileResponse.success) {
+					return new Response('Invalid Turnstile token', { status: 403 });
+				}
+
 				let hasUsedCache = false;
 				const cache = await caches.open('twi');
 				let metar: any = await cache.match(METAR_URL);
@@ -111,8 +146,8 @@ export default {
 					warnings: {
 						arriving12: arr12Dep30,
 						departing12: arr30Dep12,
-						arriving30: arr12Dep30,
-						departing30: arr30Dep12,
+						arriving30: arr30Dep12,
+						departing30: arr12Dep30,
 					},
 					winds: {
 						direction: wdir,
@@ -163,7 +198,9 @@ function classifySpeed (dataset: TWIEntry[], degrees: number, speed: number, var
 
 		for (let i = 0; i <= difference; i += 10) {
 			const current = (start + i) % 360;
-			const currentResult = classifySpeed(dataset, current, speed);
+			const fromCenter = Math.min(Math.abs(degrees - current), Math.abs((Math.max(degrees, current) - 360) - Math.min(degrees, current)));
+			const currentSpeed = speed - ((fromCenter / 10) * 2);
+			const currentResult = classifySpeed(dataset, current, currentSpeed);
 			if (currentResult === 'severe') return 'severe';
 			if (currentResult === 'heavy') result = 'heavy';
 			if (currentResult === 'medium' && result !== 'heavy') result = 'medium';
@@ -172,10 +209,10 @@ function classifySpeed (dataset: TWIEntry[], degrees: number, speed: number, var
 
 		return result;
 	} else {
-		if (severe && severe[0] <= speed) return 'severe';
-		if (heavy && heavy[0] <= speed) return 'heavy';
-		if (medium && medium[0] <= speed) return 'medium';
-		if (light && light[0] <= speed) return 'light';
+		if (severe && severe[0] + ALLOWANCES.severe <= speed) return 'severe';
+		if (heavy && heavy[0] + ALLOWANCES.heavy <= speed) return 'heavy';
+		if (medium && medium[0] + ALLOWANCES.medium <= speed) return 'medium';
+		if (light && light[0] + ALLOWANCES.light <= speed) return 'light';
 	}
 	return 'none';
 }

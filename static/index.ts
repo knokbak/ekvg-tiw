@@ -1,3 +1,11 @@
+/*
+ * BSD 3-Clause License
+ * Copyright (c) 2023, Ollie Killean
+ * 
+ * If a copy of the BSD 3-Clause License was not distributed with this file, you
+ * may obtain one at: https://github.com/knokbak/ekvg-twi/blob/master/LICENSE.
+ */
+
 export const HTML = `
 <!DOCTYPE html>
 <html lang="en-GB">
@@ -83,6 +91,13 @@ export const HTML = `
             <img src="https://cdn.olli.ovh/twi.olli.ovh/images/arr12-dep30.png" alt="Windrose showing turbulance severity for arrivals to runway 12, and departures from runway 30" />
         </div>
 
+        <h3>Handling Variable Winds</h3>
+        <p>If the winds at Skeid are variable, the system will calculate the severity for every 10-degree increment. For every 10 degrees away from the centre, the wind speed will be reduced by 2 knots (which is to handle simulator inaccuracies). The system will then use the highest severity result.</p>
+        <p>As an example, below is a calculation for the winds <strong>26017G30KT 220V300</strong>. The system identifies the severity as <strong class="color-heavy">HEAVY</strong>.</p>
+        <div class="img-sim-wrap">
+            <img src="https://cdn.olli.ovh/twi.olli.ovh/images/calculating-variable-severity.png" alt="Windrose showing turbulance severity for variable winds" />
+        </div>
+
         <hr />
 
         <p><strong>FOR SIMULATION USE ONLY</strong></p>
@@ -94,7 +109,9 @@ export const HTML = `
         </p>
 
         <span id="refreshing-in"></span>
+        <div id="turnstile-widget"></div>
 
+        <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit"></script>
         <script src="https://cdn.olli.ovh/twi.olli.ovh/scripts/main.js"></script>
     </body>
 </html>
