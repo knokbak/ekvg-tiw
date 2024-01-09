@@ -1,0 +1,173 @@
+{
+    "_DISCLAIMER": "FOR SIMULATION USE ONLY! Use of this software for real-world navigation is unsafe and strictly prohibited.",
+    "_LICENSE": "Licensed under the BSD 3-Clause License. If a copy of the license was not distributed with this file, you can obtain one at https://github.com/knokbak/ekvg-twi/blob/main/LICENSE.",
+    "data": [
+        {
+            "degrees": 0,
+            "light": [20, 35],
+            "medium": [35, null]
+        },
+        {
+            "degrees": 10,
+            "light": [20, 35],
+            "medium": [35, null]
+        },
+        {
+            "degrees": 20,
+            "light": [20, 35],
+            "medium": [35, null]
+        },
+        {
+            "degrees": 30,
+            "light": [20, 35],
+            "medium": [35, null]
+        },
+        {
+            "degrees": 40,
+            "light": [20, 35],
+            "medium": [35, null]
+        },
+        {
+            "degrees": 50,
+            "light": [20, 35],
+            "medium": [35, null]
+        },
+        {
+            "degrees": 60,
+            "light": [20, 35],
+            "medium": [35, null]
+        },
+        {
+            "degrees": 70,
+            "light": [20, 35],
+            "medium": [35, null]
+        },
+        {
+            "degrees": 80,
+            "light": [21, null]
+        },
+        {
+            "degrees": 90,
+            "light": [48, null]
+        },
+        {
+            "degrees": 100
+        },
+        {
+            "degrees": 110,
+            "light": [47, null]
+        },
+        {
+            "degrees": 120,
+            "light": [20, 32],
+            "medium": [32, null]
+        },
+        {
+            "degrees": 130,
+            "light": [14, 19],
+            "medium": [19, 36],
+            "heavy": [36, null]
+        },
+        {
+            "degrees": 140,
+            "light": [12, 17],
+            "medium": [17, 26],
+            "heavy": [26, null]
+        },
+        {
+            "degrees": 150,
+            "light": [11, 16],
+            "medium": [16, 25],
+            "heavy": [25, 40],
+            "severe": [40, null]
+        },
+        {
+            "degrees": 160,
+            "light": [12, 16],
+            "medium": [16, 25],
+            "heavy": [25, null]
+        },
+        {
+            "degrees": 170,
+            "light": [11, 17],
+            "medium": [16, 46],
+            "heavy": [46, null]
+        },
+        {
+            "degrees": 180,
+            "light": [14, null]
+        },
+        {
+            "degrees": 190
+        },
+        {
+            "degrees": 200
+        },
+        {
+            "degrees": 210
+        },
+        {
+            "degrees": 220,
+            "light": [44, null]
+        },
+        {
+            "degrees": 230,
+            "light": [21, 31],
+            "medium": [31, null]
+        },
+        {
+            "degrees": 240,
+            "light": [15, 21],
+            "medium": [21, 34],
+            "heavy": [34, null]
+        },
+        {
+            "degrees": 250,
+            "light": [19, 22],
+            "medium": [22, 33],
+            "heavy": [33, 40],
+            "severe": [40, null]
+        },
+        {
+            "degrees": 260,
+            "light": [24, 30],
+            "medium": [30, 35],
+            "heavy": [35, null]
+        },
+        {
+            "degrees": 270,
+            "light": [32, 38],
+            "medium": [38, 48],
+            "heavy": [48, null]
+        },
+        {
+            "degrees": 280,
+            "light": [39, null]
+        },
+        {
+            "degrees": 290
+        },
+        {
+            "degrees": 300
+        },
+        {
+            "degrees": 310
+        },
+        {
+            "degrees": 320
+        },
+        {
+            "degrees": 330,
+            "light": [26, null]
+        },
+        {
+            "degrees": 340,
+            "light": [20, null]
+        },
+        {
+            "degrees": 350,
+            "light": [20, 37],
+            "medium": [37, null]
+        }
+    ]
+}

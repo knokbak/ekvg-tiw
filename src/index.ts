@@ -9,10 +9,12 @@
 import { HTML } from '../static';
 import _DATA_ARR12_DEP30 from '../data/arr12-dep30.json';
 import _DATA_ARR30_DEP12 from '../data/arr30-dep12.json';
+import _DATA_WATERFALL from '../data/waterfall.json';
 import { TWIEntry, TWIResult } from './types';
 
 const DATA_ARR12_DEP30 = _DATA_ARR12_DEP30.data as TWIEntry[];
 const DATA_ARR30_DEP12 = _DATA_ARR30_DEP12.data as TWIEntry[];
+const DATA_WATERFALL = _DATA_WATERFALL.data as TWIEntry[];
 const METAR_URL = 'https://aviationweather.gov/api/data/metar?ids=EKVG&format=json&taf=false';
 const HEADERS = {
 	'Access-Control-Allow-Origin': 'https://twi.olli.ovh',
@@ -22,12 +24,25 @@ const HEADERS = {
 	'X-Frame-Options': 'DENY',
 };
 
-// these are to compensate for the weirdness provided by sims....
+// these are to compensate for the weirdness provided by sims ....
 const ALLOWANCES = {
 	light: 0,
 	medium: 0,
 	heavy: 3,
 	severe: 5,
+};
+
+// .... and these force severity levels if the wind is above a certain speed ....
+const FORCE_SEVERITY_SPEEDS = {
+	light: 40,
+	medium: 55,
+	heavy: 65,
+};
+
+// .... finally, these force severity levels if the difference between mean and gust exceeds ....
+const FORCE_SEVERITY_GUST_DIFF = {
+	medium: 15,
+	heavy: 20,
 };
 
 export interface Env {
@@ -55,7 +70,7 @@ export default {
 						...HEADERS,
 						'Cache-Control': 'public, max-age=300',
 						'Content-Type': 'text/html',
-						'Link': '<https://twi.olli.ovh/api/status>; rel="prefetch", <https://fonts.gstatic.com>; rel="preconnect", <https://fonts.googleapis.com>; rel="preconnect", <https://cdn.olli.ovh/twi.olli.ovh/styles/main.css>; rel="prefetch"; as="style", <https://cdn.olli.ovh/twi.olli.ovh/scripts/main.js>; rel="prefetch"; as="script", <https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit>; rel="prefetch"; as="script"',
+						'Link': '<https://twi.olli.ovh>; rel="preconnect", <https://fonts.gstatic.com>; rel="preconnect", <https://fonts.googleapis.com>; rel="preconnect", <https://cdn.olli.ovh/twi.olli.ovh/styles/main.css>; rel="prefetch"; as="style", <https://cdn.olli.ovh/twi.olli.ovh/scripts/main.js>; rel="prefetch"; as="script", <https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit>; rel="prefetch"; as="script"',
 						'Referrer-Policy': 'same-origin',
 					},
 				});
@@ -123,7 +138,7 @@ export default {
 				}
 
 				const windSkeidSpeed = parseInt(windSkeidStr.substring(3, 5));
-				let windSkeidGust = null;
+				let windSkeidGust;
 				if (windSkeidStr[5] === 'G') {
 					windSkeidGust = parseInt(windSkeidStr.substring(6, 8));
 				}
@@ -138,16 +153,27 @@ export default {
 					}
 				}
 
-				const arr12Dep30 = classifySpeed(DATA_ARR12_DEP30, windSkeidDir, windSkeidGust ?? windSkeidSpeed, variation);
-				const arr30Dep12 = classifySpeed(DATA_ARR30_DEP12, windSkeidDir, windSkeidGust ?? windSkeidSpeed, variation);
+				const [arr12Dep30, arr12Dep30Modifiers] = classifySpeed(DATA_ARR12_DEP30, windSkeidDir, windSkeidGust ?? windSkeidSpeed, windSkeidSpeed, variation);
+				const [arr30Dep12, arr30Dep12Modifiers] = classifySpeed(DATA_ARR30_DEP12, windSkeidDir, windSkeidGust ?? windSkeidSpeed, windSkeidSpeed, variation);
+				const [arr30Dep12Waterfall, arr30Dep12WaterfallModifiers] = classifySpeed(DATA_WATERFALL, windSkeidDir, windSkeidGust ?? windSkeidSpeed, windSkeidSpeed, variation);
 
 				return new Response(JSON.stringify({
 					at: receiptTime,
 					warnings: {
 						arriving12: arr12Dep30,
 						departing12: arr30Dep12,
+						departing12Waterfall: arr30Dep12Waterfall,
 						arriving30: arr30Dep12,
+						arriving30Waterfall: arr30Dep12Waterfall,
 						departing30: arr12Dep30,
+					},
+					modifiers: {
+						arriving12: arr12Dep30Modifiers,
+						departing12: arr30Dep12Modifiers,
+						departing12Waterfall: arr30Dep12WaterfallModifiers,
+						arriving30: arr30Dep12Modifiers,
+						arriving30Waterfall: arr30Dep12WaterfallModifiers,
+						departing30: arr12Dep30Modifiers,
 					},
 					winds: {
 						direction: wdir,
@@ -157,7 +183,7 @@ export default {
 					skeid: {
 						direction: windSkeidDir,
 						speed: windSkeidSpeed,
-						gust: windSkeidGust,
+						gust: windSkeidGust ?? null,
 					},
 					raw: {
 						metar: rawOb,
@@ -185,11 +211,8 @@ export default {
 	},
 };
 
-function classifySpeed (dataset: TWIEntry[], degrees: number, speed: number, variation?: [number, number]): TWIResult {
-	const index = Math.round(degrees / 10) % 36;
-	const entry = dataset[index];
-	const { light, medium, heavy, severe } = entry;
-
+function classifySpeed (dataset: TWIEntry[], degrees: number, speed: number, meanSpeed?: number, variation?: [number, number]): [TWIResult, string[]] {
+	const modifiers: string[] = [];
 	if (variation) {
 		// if there is variation, we need to check every 10 degrees from the start to the end and use the highest result
 		const [start, end] = variation;
@@ -200,19 +223,69 @@ function classifySpeed (dataset: TWIEntry[], degrees: number, speed: number, var
 			const current = (start + i) % 360;
 			const fromCenter = Math.min(Math.abs(degrees - current), Math.abs((Math.max(degrees, current) - 360) - Math.min(degrees, current)));
 			const currentSpeed = speed - ((fromCenter / 10) * 2);
-			const currentResult = classifySpeed(dataset, current, currentSpeed);
-			if (currentResult === 'severe') return 'severe';
-			if (currentResult === 'heavy') result = 'heavy';
-			if (currentResult === 'medium' && result !== 'heavy') result = 'medium';
-			if (currentResult === 'light' && result === 'none') result = 'light';
+			const currentResult = classifySpeed(dataset, current, currentSpeed, meanSpeed);
+			if (currentResult[0] === 'severe') {
+				result = 'severe';
+				modifiers.push('variation reached severe');
+				break;
+			}
+			if (currentResult[0] === 'heavy') result = 'heavy';
+			if (currentResult[0] === 'medium' && result !== 'heavy') result = 'medium';
+			if (currentResult[0] === 'light' && result === 'none') result = 'light';
 		}
 
-		return result;
+		modifiers.push(`variation reached ${result}`);
+		return [result, modifiers];
 	} else {
-		if (severe && severe[0] + ALLOWANCES.severe <= speed) return 'severe';
-		if (heavy && heavy[0] + ALLOWANCES.heavy <= speed) return 'heavy';
-		if (medium && medium[0] + ALLOWANCES.medium <= speed) return 'medium';
-		if (light && light[0] + ALLOWANCES.light <= speed) return 'light';
+		const index = Math.round(degrees / 10) % 36;
+		const entry = dataset[index];
+		const { light, medium, heavy, severe } = entry;
+		let result: number = 0;
+
+		if (severe && severe[0] + ALLOWANCES.severe <= speed) {
+			modifiers.push(`reached severe @ ${severe[0]} <= ${speed} (allowance ${ALLOWANCES.severe})`);
+			result = 4;
+		}
+
+		if (heavy && heavy[0] + ALLOWANCES.heavy <= speed) {
+			modifiers.push(`reached heavy @ ${heavy[0]} <= ${speed} (allowance ${ALLOWANCES.heavy})`);
+			if (result < 3) result = 3;
+		}
+		if (meanSpeed && FORCE_SEVERITY_GUST_DIFF.heavy <= Math.abs(speed - meanSpeed)) {
+			modifiers.push(`severity forced to at least heavy due to mean/gust differential @ ${FORCE_SEVERITY_GUST_DIFF.heavy} <= ${Math.abs(speed - meanSpeed)}`);
+			if (result < 3) result = 3;
+		}
+		if (FORCE_SEVERITY_SPEEDS.heavy <= speed) {
+			modifiers.push(`severity forced to at least heavy due to wind speed @ ${FORCE_SEVERITY_SPEEDS.heavy} <= ${speed}`);
+			if (result < 3) result = 3;
+		}
+
+		if (medium && medium[0] + ALLOWANCES.medium <= speed) {
+			modifiers.push(`reached medium @ ${medium[0]} <= ${speed} (allowance ${ALLOWANCES.medium})`);
+			if (result < 2) result = 2;
+		}
+		if (meanSpeed && FORCE_SEVERITY_GUST_DIFF.medium <= Math.abs(speed - meanSpeed)) {
+			modifiers.push(`severity forced to at least medium due to mean/gust differential @ ${FORCE_SEVERITY_GUST_DIFF.medium} <= ${Math.abs(speed - meanSpeed)}`);
+			if (result < 2) result = 2;
+		}
+		if (FORCE_SEVERITY_SPEEDS.medium <= speed) {
+			modifiers.push(`severity forced to at least medium due to wind speed @ ${FORCE_SEVERITY_SPEEDS.medium} <= ${speed}`);
+			if (result < 2) result = 2;
+		}
+
+		if (light && light[0] + ALLOWANCES.light <= speed) {
+			modifiers.push(`reached light @ ${light[0]} <= ${speed} (allowance ${ALLOWANCES.light})`);
+			if (result < 1) result = 1;
+		}
+		if (FORCE_SEVERITY_SPEEDS.light <= speed) {
+			modifiers.push(`severity forced to at least light due to wind speed @ ${FORCE_SEVERITY_SPEEDS.light} <= ${speed}`);
+			if (result < 1) result = 1;
+		}
+
+		if (result === 1) return ['light', modifiers];
+		if (result === 2) return ['medium', modifiers];
+		if (result === 3) return ['heavy', modifiers];
+		if (result === 4) return ['severe', modifiers];
+		return ['none', modifiers];
 	}
-	return 'none';
 }

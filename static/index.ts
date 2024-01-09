@@ -46,6 +46,20 @@ export const HTML = `
                 </div>
                 <p class="indicators-identifier">RUNWAY 12</p>
             </div>
+
+            <div class="indicators-box">
+                <div class="indicators">
+                    <div id="arr-rwy-30-waterfall" class="indicator">
+                        <h3>ARR WATERFALL 30</h3>
+                        <p></p>
+                    </div>
+                    <div id="dep-rwy-12-waterfall" class="indicator">
+                        <h3>DEP WATERFALL 12</h3>
+                        <p></p>
+                    </div>
+                </div>
+                <p class="indicators-identifier">WATERFALL</p>
+            </div>
             
             <p id="metar"></p>
         </div>
@@ -64,14 +78,15 @@ export const HTML = `
         <p>
             <strong>NONE:</strong> No substantial turbulence is predicted.
             <br />
-            <strong class="color-light">LIGHT:</strong> Light turbulence is predicted. Light aircraft should still be able to fly relatively safely.
+            <strong class="color-light">LIGHT:</strong> Light turbulence is predicted. There may be slight, erratic changes in attitude and/or altitude.
             <br />
-            <strong class="color-medium">MEDIUM:</strong> Moderate turbulence is predicted. The flight of light aircraft is very difficult.
+            <strong class="color-medium">MEDIUM:</strong> Moderate turbulence is predicted. Variations in speed as well as altitude and attitude may occur but the aircraft remains in control all the time.
             <br />
-            <strong class="color-heavy">HEAVY:</strong> Moderate to severe turbulence is predicted. The flight of light aircraft is hazardous and the flight of larger aircraft is very difficult. Larger aircraft may be very near, or past, their crosswind limits.
+            <strong class="color-heavy">HEAVY:</strong> Moderate to severe turbulence is predicted. Large variations in speed as well as altitude and attitude may occur. The aircraft remains under control.
             <br />
-            <strong class="color-severe">SEVERE:</strong> Severe turbulence is predicted. Take-off and landing in the indicated configuration is prohibited.
+            <strong class="color-severe">SEVERE:</strong> Severe turbulence is predicted. Take-off and landing in the indicated configuration is prohibited. There may be large, abrupt changes in attitude and altitude with large variations in airspeed. There may be brief periods where effective control of the aircraft is impossible. Loose objects may move around the cabin and damage to aircraft structures may occur.
         </p>
+        <p><strong>NOTE:</strong> The TWI system is designed for Cat M aircraft (such as the A320 and B737). Light aircraft are particularly vulnerable in turbulent conditions.</p>
         <p><strong>Note:</strong> TWI closes runways for take-offs and landings separately. This means a runway could be closed for take-offs, but available for landings, or vice-versa.</p>
         <p>This page will automatically refresh every 10 minutes. Every 2 hours, you will need to confirm you are still using the system.</p>
 
@@ -89,6 +104,12 @@ export const HTML = `
         <h3>Arriving RWY 12, Departing RWY 30</h3>
         <div class="img-sim-wrap">
             <img src="https://cdn.olli.ovh/twi.olli.ovh/images/arr12-dep30.png" alt="Windrose showing turbulance severity for arrivals to runway 12, and departures from runway 30" />
+        </div>
+
+        <h3>Arriving Waterfall RWY 30, Departing Waterfall RWY 12</h3>
+        <p>VFR flights, and IFR flights following an RNP AR procedure, can depart or arrive via a special route which takes them between two hills. These procedures have their own risks and windroses regarding turbulence so have their own TWI indicators.</p>
+        <div class="img-sim-wrap">
+            <img src="https://cdn.olli.ovh/twi.olli.ovh/images/waterfall.png" alt="Windrose showing turbulance severity for arrivals and departures using the waterfall procedures" />
         </div>
 
         <h3>Handling Variable Winds</h3>

@@ -118,7 +118,7 @@ hr {
 
 .indicators-wrap {
     position: relative;
-    min-height: 376px;
+    min-height: 541px;
 }
 
 .indicators-box {
@@ -179,6 +179,7 @@ img {
     position: relative;
     max-width: 450px;
     max-height: 450px;
+    pointer-events: none;
 }
 
 .img-sim-wrap::after {
